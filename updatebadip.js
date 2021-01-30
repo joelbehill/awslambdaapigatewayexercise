@@ -90,7 +90,7 @@ exports.handler =  async function(event, context) {
     const addIpSize = addIps.size
     if (addIpSize > 0) {
       console.log(`We are adding ${addIpSize} IP addresses`)
-      addIps.forEach(ipAddress => {
+      addIps.forEach(async (ipAddress) => {
         await IpAddress.create({'ipaddress': ipAddress})
       })
     }
@@ -98,7 +98,7 @@ exports.handler =  async function(event, context) {
     const removeIpSize = removeIps.size
     if (removeIpSize > 0) {
       console.log(`We are removing ${removeIpSize} IP addresses`)
-      removeIps.forEach(ipAddress => {
+      removeIps.forEach(async (ipAddress) => {
         await IpAddress.delete(ipAddress)
       })
     }
