@@ -1,5 +1,6 @@
 const aws = require("aws-sdk");
-const nodegit = require('nodegit')
+const dynamoose = require('dynamoose')
+const shell = require('shelljs')
 
 exports.handler =  async function(event, context) {
   const IpAddress = dynamoose.model('badips', { ipaddress: String })
@@ -8,7 +9,9 @@ exports.handler =  async function(event, context) {
   let responseCode = 200
 
   // Do a clone of the git repo
-
+  const path = process.cwd
+  shell.cd('/tmp')
+  shell.exec('git clone https://github.com/firehol/blocklist-ipsets badips')
 
   // Run through the repo files and add those ip addresses to Dynamo
   /*
