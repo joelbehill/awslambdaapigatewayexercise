@@ -1,5 +1,8 @@
 {
   "dependencies": {
-    "serverless": "^2.21.1"
+    "aws-sdk": "^2.834.0",
+    "dynamoose": "^2.5.0",
+    "serverless": "^2.21.1",
+    "serverless-pseudo-parameters": "^2.5.0"
   }
 }
