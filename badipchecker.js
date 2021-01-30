@@ -2,7 +2,9 @@ const aws = require('aws-sdk')
 const dynamoose = require('dynamoose')
 
 exports.handler =  async function(event, context) {
-  const ipAddressModel = dynamoose.model("ipaddress", ipAddressSchema);
+  const IpAddress = dynamoose.model('badips', { ipaddress: String })
+
+  let badIpAddresses = []
 
   /*
   We set defaults based on the handler
@@ -16,16 +18,18 @@ exports.handler =  async function(event, context) {
 
     const ipAddresses = body['ip_addresses']
 
-    let badIpAddresses = []
-
     for(let ipAddress of ipAddresses) {
-      console.log(ipAddress)
+      const badIp = await IpAddress.get(ipAddress)
 
+      if (badIp) {
+        badIpAddresses.push(badIp)
+      }
     }
   }
 
   responseBody = {
     message: message,
+    bad_ip_addresses: badIpAddresses
   }
 
   let response = {
