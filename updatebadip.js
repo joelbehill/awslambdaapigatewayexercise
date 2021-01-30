@@ -61,38 +61,43 @@ exports.handler =  async function(event, context) {
   // save the files to s3 but since the only thing we need the files for is to read them and
   // put their ip addresses into Dynamo
   try {
-    // await git().silent(true).clone('https://github.com/firehol/blocklist-ipsets.git', filePath)
-
+    await git().silent(true).clone('https://github.com/firehol/blocklist-ipsets.git', filePath)
+  } catch (error) {
+    console.log('Already cloned the repository')
+  }
+  try {
     // We need to get all of the files in the filePath directory
     const fileNames = fs.readdirSync(filePath).filter(el => path.extname(el) === '.ipset')
+
+    // Both processFiles and processDynamo returns a set of ip addresses
     const fileSet = await processFiles(fileNames, filePath)
     const dynamodbSet = await processDynamo(IpAddress)
 
+    // We use sets because no IP address should be duplicated in the list and we can do set math
     const addIps = difference(fileSet, dynamodbSet)
     const removeIps = difference(dynamodbSet, fileSet)
 
-    addIps.forEach(async ipAddress => {
-      await IpAddress.create({'ipaddress': ipAddress})
-    })
+    /*
+    We don't wait to create or delete an ip address from the Dynamo table
+    */
+    if (addIps.size > 0) {
+      console.log('We are adding IP addresses')
+      addIps.forEach(ipAddress => {
+        IpAddress.create({'ipaddress': ipAddress})
+      })
+    }
 
-    removeIps.forEach(async ipAddress => {
-      await IpAddress.delete(ipAddress)
-    })
+    if (removeIps.size > 0) {
+      console.log('We are removing IP addresses')
+      removeIps.forEach(ipAddress => {
+        IpAddress.delete(ipAddress)
+      })
+    }
 
     message = 'We were able to update the database'
   } catch (error) {
     console.log(error)
   }
-
-  // Run through the repo files and add those ip addresses to Dynamo
-  /*
-  const result = await IpAddress.create({
-    ipaddress: ipaddress
-  })
-  if (result) {
-
-  }
-  */
 
   responseBody = {
     message: message,

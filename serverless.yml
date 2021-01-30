@@ -35,6 +35,8 @@ functions:
           cors: true
   updatebadip:
     handler: updatebadip.handler
+    memorySize: 2048
+    timeout: 60
     events:
       - schedule: rate(24 hours)
 
