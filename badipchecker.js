@@ -19,10 +19,14 @@ exports.handler =  async function(event, context) {
     const ipAddresses = body['ip_addresses']
 
     for(let ipAddress of ipAddresses) {
-      const badIp = await IpAddress.get(ipAddress)
+      // If the ipAddress does not exist already in the badIpAddresses array
+      if (badIpAddresses.indexOf(ipAddress) === -1) {
+        const result = await IpAddress.get(ipAddress)
 
-      if (badIp) {
-        badIpAddresses.push(badIp)
+        if (result) {
+          const badIp = result.ipaddress
+          badIpAddresses.push(badIp)
+        }
       }
     }
   }

@@ -1,10 +1,11 @@
 const aws = require("aws-sdk");
+const nodegit = require('nodegit')
 
 exports.handler =  async function(event, context) {
-  console.log("EVENT: \n" + JSON.stringify(event, null, 2))
+  const IpAddress = dynamoose.model('badips', { ipaddress: String })
 
   // Do a clone of the git repo
   // Run through the repo files and add those ip addresses to Dynamo
 
-  return context.logStreamName
+
 }
