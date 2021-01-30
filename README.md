@@ -8,7 +8,7 @@ The purpose is to show what an awesome person I am to work with.  No really the 
 
 We are using Serverless Framework (https://serverless.com) to deploy.  The reason we are using Serverless as opposed to CDK, Terraform is because it is easier to deploy API Gateway / Lambda.  If we were needing to deploy Docker containers, an entire network (VPC, subnets, routing tables) then CDK or Terraform would be a better solution.
 
-I decided to go with API Gateway / Lambda / Dyanmo because I wanted a system that would make it easiest to quickly check a list of IP addresses.
+I decided to go with API Gateway / Lambda / Dyanmo because I wanted a system that would make it easiest to quickly check a list of IP addresses.  Also, where scalability wouldn't be an issue and costs would be low, no matter the times it was called.
 
 There are two main functions `badipchecker` and `updatebadip`.  The former is what the API Gateway is using to query DynamoDB.  The latter is set up to run every 24 hours, but you can vary that in the serverless.yml configuration by modifying the schedule `- schedule: rate(24 hours)`.  I broke it up into two so badipchecker could be quick by allowing it to do only a few things.  Take in a list of IP addresses, query DynamoDB, and report the results of the query.
 
