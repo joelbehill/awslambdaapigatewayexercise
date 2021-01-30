@@ -13,7 +13,6 @@ exports.handler =  async function(event, context) {
   let message = 'Unable to parse POST input'
 
   if (event.body !== null && event.body !== undefined) {
-    message = 'Here is the body'
     body = JSON.parse(event.body)
 
     const ipAddresses = body['ip_addresses']
@@ -29,6 +28,12 @@ exports.handler =  async function(event, context) {
         }
       }
     }
+  }
+
+  if (badIpAddresses.length > 0) {
+    message = 'These are the bad ip addresses.'
+  } else {
+    message = 'There are no bad ip addresses submitted.'
   }
 
   responseBody = {
