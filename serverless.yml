@@ -7,6 +7,7 @@ provider:
   runtime: nodejs12.x
   region: us-east-2
   stage: production
+  timeout: 10
   environment:
     UploadBucket: 'badipchecker'
   apiGateway:
@@ -36,7 +37,6 @@ functions:
     handler: updatebadip.handler
     events:
       - schedule: rate(24 hours)
-
 
 resources: # CloudFormation template syntax from here on.
   Resources:
