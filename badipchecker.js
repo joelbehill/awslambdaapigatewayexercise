@@ -1,4 +1,5 @@
 const aws = require('aws-sdk')
+const dynamoose = require('dynamoose')
 
 exports.handler =  async function(event, context) {
   const ipAddressModel = dynamoose.model("ipaddress", ipAddressSchema);
