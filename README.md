@@ -2,7 +2,7 @@
 
 ## Purpose
 
-The purpose is to show what an awesome person I am to work with.  No really the purpose is to go through the FluentStream exercise to set up bad ip detection.
+The purpose is to show what an awesome person I am to work with.  No really the purpose is to go through the exercise to set up bad ip detection.
 
 ## What we are using and why
 
